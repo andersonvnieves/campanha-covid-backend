@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampanhaCovid.Backend.WebAPI", "CampanhaCovid.Backend.WebAPI\CampanhaCovid.Backend.WebAPI.csproj", "{27FC8D59-0386-4089-A5E2-0E44790C1AD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampanhaCovid.Backend.Domain", "CampanhaCovid.Backend.Domain\CampanhaCovid.Backend.Domain.csproj", "{B420D40D-AD0A-4871-946E-B4408322E9AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27FC8D59-0386-4089-A5E2-0E44790C1AD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27FC8D59-0386-4089-A5E2-0E44790C1AD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27FC8D59-0386-4089-A5E2-0E44790C1AD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27FC8D59-0386-4089-A5E2-0E44790C1AD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B420D40D-AD0A-4871-946E-B4408322E9AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B420D40D-AD0A-4871-946E-B4408322E9AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B420D40D-AD0A-4871-946E-B4408322E9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B420D40D-AD0A-4871-946E-B4408322E9AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F617E163-828C-4985-8C3F-91308EE6F980}
+	EndGlobalSection
+EndGlobal
