@@ -10,5 +10,6 @@ namespace CampanhaCovid.Backend.Domain.Interfaces.Services
     public interface IRegistraUsuarioService
     {
         void RegsitraInstituicao(RegistrarInstituicaoDTO dados);
+        List<InstituicaoDTO> GetByCidadeTransporte(bool transporte, string cidade);
     }
 }

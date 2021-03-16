@@ -1,16 +1,16 @@
+using AutoMapper;
+using CampanhaCovid.Backend.Domain.DTOs;
+using CampanhaCovid.Backend.Domain.Entities;
+using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
+using CampanhaCovid.Backend.Domain.Interfaces.Services;
+using CampanhaCovid.Backend.Domain.Services;
+using CampanhaCovid.Backend.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.WebAPI
 {
@@ -32,6 +32,13 @@ namespace CampanhaCovid.Backend.WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CampanhaCovid.Backend.WebAPI", Version = "v1" });
             });
+
+            services.AddScoped<IDoacaoRepository, DoacaoRepository>();
+            services.AddScoped<IInstituicaoRepository<Instituicao>, InstituicaoRepository>();
+            services.AddScoped<IDoacaoService, DoacaoService>();
+            services.AddScoped<IRegistraUsuarioService, RegistraUsuarioService>();
+
+            AutoMapperConfig(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +61,17 @@ namespace CampanhaCovid.Backend.WebAPI
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void AutoMapperConfig(IServiceCollection services)
+        {
+            var mapperConfigure = new MapperConfiguration(config =>
+            {
+                config.CreateMap<Doacao, DoacaoDTO>().ReverseMap();
+            });
+
+            IMapper mapper = mapperConfigure.CreateMapper();
+            services.AddSingleton(mapper);
         }
     }
 }
