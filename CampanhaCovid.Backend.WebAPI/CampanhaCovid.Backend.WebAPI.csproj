@@ -9,11 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CampanhaCovid.Backend.Domain\CampanhaCovid.Backend.Domain.csproj" />
     <ProjectReference Include="..\CampanhaCovid.Backend.Infrastructure\CampanhaCovid.Backend.Infrastructure.csproj" />
   </ItemGroup>
