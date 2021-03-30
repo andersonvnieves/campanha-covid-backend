@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.Domain.Interfaces
 {
-   public interface IUnitOfWork : IDisposable
-{
-    bool Commit();
-}
-
-public class UnitOfWork : IUnitOfWork
-{
-    private readonly IMongoContext _context;
-
-    public UnitOfWork(IMongoContext context)
+    public interface IUnitOfWork : IDisposable
     {
-        _context = context;
+        bool Commit();
     }
 
-    public bool Commit()
+    public class UnitOfWork : IUnitOfWork
     {
-        return _context.SaveChanges().Result > 0;
-    }
+        private readonly IMongoContext _context;
 
-    public void Dispose()
-    {
-        _context.Dispose();
-    }
+        public UnitOfWork(IMongoContext context)
+        {
+            _context = context;
+        }
+
+        public bool Commit()
+        {
+            return _context.SaveChanges().Result > 0;
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
     }
 }

@@ -24,14 +24,14 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         public IActionResult Post(RegistrarInstituicaoDTO dados)
         {
             registraUsuarioService.RegsitraInstituicao(dados);
-            return Ok(""); 
+            return Ok("");
         }
 
 
         [HttpPut]
         public IActionResult Put(RegistrarInstituicaoDTO dados)
         {
-            
+
             return Ok("");
         }
 
@@ -41,5 +41,11 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
             return Ok("");
         }
 
+        [HttpGet]
+        public IActionResult GetByCidadeTransporte(bool transporte, string cidade)
+        {
+            var retorno = registraUsuarioService.GetByCidadeTransporte(transporte, cidade);
+            return Ok(retorno);
+        }
     }
 }

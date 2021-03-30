@@ -24,8 +24,15 @@ namespace CampanhaCovid.Backend.Domain.Services
 
         }
 
+        public List<InstituicaoDTO> GetByCidadeTransporte(bool transporte, string cidade)
+        {
+            //TODO Buscar instituições por cidade e se vai buscar as roupas[
+            return new List<InstituicaoDTO>();
+        }
+
         public void RegsitraInstituicao(RegistrarInstituicaoDTO dados)
         {
+            //usuarioRepository.Salvar(dados);
             throw new NotImplementedException();
         }
     }
