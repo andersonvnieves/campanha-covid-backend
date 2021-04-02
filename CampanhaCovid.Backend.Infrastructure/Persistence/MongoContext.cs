@@ -27,7 +27,7 @@ namespace CampanhaCovid.Backend.Infrastructure.Persistence
             // Every command will be stored and it'll be processed at SaveChanges
             _commands = new List<Func<Task>>();
         }
-
+      
         public async Task<int> SaveChanges()
         {
             ConfigureMongo();

@@ -1,5 +1,6 @@
 ﻿using CampanhaCovid.Backend.Domain.Interfaces;
 using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using ServiceStack;
 using System;
@@ -24,12 +25,14 @@ namespace CampanhaCovid.Backend.Infrastructure.Persistence.Repositories
 
         public virtual void Add(TEntity obj)
         {
-            Context.AddCommand(() => DbSet.InsertOneAsync(obj));
+            Task.Run(() => DbSet.InsertOneAsync(obj));
+            //Context.AddCommand(() => DbSet.InsertOneAsync(obj));
         }
 
-        public virtual async Task<TEntity> GetById(Guid id)
+        public virtual async Task<TEntity> GetById(string id)
         {
-            var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Eq("_id", id));
+            var objectId = new ObjectId(id);
+            var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Eq("_id", objectId));
             return data.SingleOrDefault();
         }
 

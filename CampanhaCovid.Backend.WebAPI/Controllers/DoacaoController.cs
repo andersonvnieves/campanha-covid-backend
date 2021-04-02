@@ -21,12 +21,11 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(DoacaoDTO dados)
+        public async Task<IActionResult> Post(DoacaoDTO dados)
         {
             try
             {
-                doacaoService.RegsitraInstituicao(dados);
-                return Ok("");
+                return Ok(doacaoService.RegsitraInstituicao(dados));
             }
             catch (Exception ex)
             {
@@ -47,10 +46,10 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
             return Ok(await doacaoService.GetAll());
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult Get(Guid id)
-        //{
-        //    return Ok(await doacaoService.GetById(id));
-        //}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            return Ok(await doacaoService.GetById(id));
+        }
     }
 }
