@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CampanhaCovid.Backend.Domain.DTOs;
 using CampanhaCovid.Backend.Domain.Entities;
+using CampanhaCovid.Backend.Domain.Interfaces;
 using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
 using CampanhaCovid.Backend.Domain.Interfaces.Services;
 using System;
@@ -15,16 +16,31 @@ namespace CampanhaCovid.Backend.Domain.Services
     {
         private readonly IDoacaoRepository repository;
         private IMapper mapper;
-        public DoacaoService(IDoacaoRepository repository, IMapper mapper)
+        private readonly IUnitOfWork _uow;
+        public DoacaoService(IDoacaoRepository repository, IMapper mapper, IUnitOfWork uow)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this._uow = uow;
         }
 
-        public void RegsitraInstituicao(DoacaoDTO dadosDto)
+        public async Task<IEnumerable<DoacaoDTO>> GetAll()
+        {
+            var retorno = await repository.GetAll();
+            return mapper.Map<IEnumerable<DoacaoDTO>>(retorno);
+        }
+
+        public Task<DoacaoDTO> GetById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task RegsitraInstituicao(DoacaoDTO dadosDto)
         {
             var dados = mapper.Map<Doacao>(dadosDto);
+            dados.Id = MongoDB.Bson.ObjectId.GenerateNewId();
             repository.Add(dados);
+            await _uow.Commit();
         }
     }
 }

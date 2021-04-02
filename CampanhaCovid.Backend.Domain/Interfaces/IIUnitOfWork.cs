@@ -8,7 +8,7 @@ namespace CampanhaCovid.Backend.Domain.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        bool Commit();
+        Task<bool> Commit();
     }
 
     public class UnitOfWork : IUnitOfWork
@@ -20,9 +20,11 @@ namespace CampanhaCovid.Backend.Domain.Interfaces
             _context = context;
         }
 
-        public bool Commit()
+        public async Task<bool> Commit()
         {
-            return _context.SaveChanges().Result > 0;
+            var changeAmount = await _context.SaveChanges();
+
+            return changeAmount > 0;
         }
 
         public void Dispose()
