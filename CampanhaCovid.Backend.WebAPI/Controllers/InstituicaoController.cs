@@ -42,6 +42,7 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Route("filtro")]
         public IActionResult GetByCidadeTransporte(bool transporte, string cidade)
         {
             var retorno = registraUsuarioService.GetByCidadeTransporte(transporte, cidade);

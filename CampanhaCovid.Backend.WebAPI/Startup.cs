@@ -1,6 +1,7 @@
 using AutoMapper;
 using CampanhaCovid.Backend.Domain.DTOs;
 using CampanhaCovid.Backend.Domain.Entities;
+using CampanhaCovid.Backend.Domain.Interfaces;
 using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
 using CampanhaCovid.Backend.Domain.Interfaces.Services;
 using CampanhaCovid.Backend.Domain.Services;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using CampanhaCovid.Backend.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CampanhaCovid.Backend.WebAPI
 {
@@ -33,10 +36,16 @@ namespace CampanhaCovid.Backend.WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CampanhaCovid.Backend.WebAPI", Version = "v1" });
             });
 
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IMongoContext, MongoContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDoacaoRepository, DoacaoRepository>();
-            services.AddScoped<IInstituicaoRepository<Instituicao>, InstituicaoRepository>();
             services.AddScoped<IDoacaoService, DoacaoService>();
+
             services.AddScoped<IRegistraUsuarioService, RegistraUsuarioService>();
+
+            services.AddScoped<IInstituicaoRepository, InstituicaoRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
             AutoMapperConfig(services);
         }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.Domain.Interfaces.Repositories
 {
-    public interface IGenericRepository<T> : IDisposable
+    public interface IRepository<TEntity> : IDisposable where TEntity : class
     {
-        void Add(T obj);
-        T GetById(Guid id);
-        IEnumerable<T> GetAll();
-        void Update(T obj);
+        void Add(TEntity obj);
+        Task<TEntity> GetById(Guid id);
+        Task<IEnumerable<TEntity>> GetAll();
+        void Update(TEntity obj);
         void Remove(Guid id);
     }
 }

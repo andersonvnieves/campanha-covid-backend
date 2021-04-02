@@ -1,4 +1,6 @@
-﻿using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
+﻿using CampanhaCovid.Backend.Domain.Entities;
+using CampanhaCovid.Backend.Domain.Interfaces;
+using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.Infrastructure.Persistence.Repositories
 {
-    public class DoacaoRepository : IDoacaoRepository
+    public class DoacaoRepository : BaseRepository<Doacao>, IDoacaoRepository
     {
+        public DoacaoRepository(IMongoContext context) : base(context)
+        {
+        }
     }
 }

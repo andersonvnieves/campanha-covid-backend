@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CampanhaCovid.Backend.Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace CampanhaCovid.Backend.Domain.Interfaces.Services
 {
     public interface IDoacaoService
     {
+        void RegsitraInstituicao(DoacaoDTO dados);
     }
 }

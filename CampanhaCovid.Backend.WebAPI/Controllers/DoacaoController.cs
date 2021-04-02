@@ -23,7 +23,7 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         [HttpPost]
         public IActionResult Post(DoacaoDTO dados)
         {
-            //doacaoService.RegsitraInstituicao(dados);
+            doacaoService.RegsitraInstituicao(dados);
             return Ok("");
         }
 

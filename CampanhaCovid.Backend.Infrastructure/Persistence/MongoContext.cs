@@ -1,4 +1,5 @@
 ﻿using CampanhaCovid.Backend.Domain.Interfaces;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
@@ -11,23 +12,27 @@ using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.Infrastructure.Persistence
 {
-    public class MongoContext: IMongoContext
+    public class MongoContext : IMongoContext
     {
-        //https://www.brunobrito.net.br/aspnet-core-mongodb-unit-of-work/
         private IMongoDatabase Database { get; set; }
         public MongoClient MongoClient { get; set; }
         private readonly List<Func<Task>> _commands;
         public IClientSessionHandle Session { get; set; }
-
-        public MongoContext(MongoDbSettings configuration)
+        public MongoContext(IConfiguration configuration)
         {
+            // Set Guid to CSharp style (with dash -)
             BsonDefaults.GuidRepresentation = GuidRepresentation.CSharpLegacy;
+
+            // Every command will be stored and it'll be processed at SaveChanges
             _commands = new List<Func<Task>>();
 
             RegisterConventions();
 
-            MongoClient = new MongoClient(configuration.connectionString);
-            Database = MongoClient.GetDatabase(configuration.databaseName);
+            // Configure mongo (You can inject the config, just to simplify)
+            MongoClient = new MongoClient(Environment.GetEnvironmentVariable("MONGOCONNECTION") ?? configuration.GetSection("MongoSettings").GetSection("Connection").Value);
+
+            Database = MongoClient.GetDatabase(Environment.GetEnvironmentVariable("DATABASENAME") ?? configuration.GetSection("MongoSettings").GetSection("DatabaseName").Value);
+
         }
 
         private void RegisterConventions()

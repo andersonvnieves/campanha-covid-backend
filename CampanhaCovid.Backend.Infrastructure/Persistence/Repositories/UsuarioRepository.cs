@@ -1,4 +1,5 @@
 ﻿using CampanhaCovid.Backend.Domain.Entities;
+using CampanhaCovid.Backend.Domain.Interfaces;
 using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.Infrastructure.Persistence.Repositories
 {
-    public class UsuarioRepository : IUsuarioRepository<Usuario>
+    public class UsuarioRepository : BaseRepository<Usuario>, IUsuarioRepository
     {
-        public void Salvar(Task entity)
+        public UsuarioRepository(IMongoContext context) : base(context)
         {
-            throw new NotImplementedException();
         }
     }
 }
