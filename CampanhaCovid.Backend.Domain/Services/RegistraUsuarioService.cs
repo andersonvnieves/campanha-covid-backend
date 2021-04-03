@@ -12,11 +12,11 @@ namespace CampanhaCovid.Backend.Domain.Services
 {
     public class RegistraUsuarioService : IRegistraUsuarioService
     {
-        private readonly IUsuarioRepository<Usuario> usuarioRepository;
+        private readonly IUsuarioRepository repository;
 
-        public RegistraUsuarioService(IUsuarioRepository<Usuario> usuarioRepository)
+        public RegistraUsuarioService(IUsuarioRepository usuarioRepository)
         {
-            this.usuarioRepository = usuarioRepository;
+            this.repository = usuarioRepository;
         }
 
         public void Executar()

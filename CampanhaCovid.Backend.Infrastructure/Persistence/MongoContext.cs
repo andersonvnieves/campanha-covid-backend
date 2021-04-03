@@ -1,4 +1,5 @@
 ﻿using CampanhaCovid.Backend.Domain.Interfaces;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
@@ -11,37 +12,26 @@ using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.Infrastructure.Persistence
 {
-    public class MongoContext: IMongoContext
+    public class MongoContext : IMongoContext
     {
-        //https://www.brunobrito.net.br/aspnet-core-mongodb-unit-of-work/
         private IMongoDatabase Database { get; set; }
+        public IClientSessionHandle Session { get; set; }
         public MongoClient MongoClient { get; set; }
         private readonly List<Func<Task>> _commands;
-        public IClientSessionHandle Session { get; set; }
+        private readonly IConfiguration _configuration;
 
-        public MongoContext(MongoDbSettings configuration)
+        public MongoContext(IConfiguration configuration)
         {
-            BsonDefaults.GuidRepresentation = GuidRepresentation.CSharpLegacy;
+            _configuration = configuration;
+
+            // Every command will be stored and it'll be processed at SaveChanges
             _commands = new List<Func<Task>>();
-
-            RegisterConventions();
-
-            MongoClient = new MongoClient(configuration.connectionString);
-            Database = MongoClient.GetDatabase(configuration.databaseName);
         }
-
-        private void RegisterConventions()
-        {
-            var pack = new ConventionPack
-        {
-            new IgnoreExtraElementsConvention(true),
-            new IgnoreIfDefaultConvention(true)
-        };
-            ConventionRegistry.Register("My Solution Conventions", pack, t => true);
-        }
-
+      
         public async Task<int> SaveChanges()
         {
+            ConfigureMongo();
+
             using (Session = await MongoClient.StartSessionAsync())
             {
                 Session.StartTransaction();
@@ -56,16 +46,29 @@ namespace CampanhaCovid.Backend.Infrastructure.Persistence
             return _commands.Count;
         }
 
+        private void ConfigureMongo()
+        {
+            if (MongoClient != null)
+            {
+                return;
+            }
+
+            // Configure mongo (You can inject the config, just to simplify)
+            MongoClient = new MongoClient(_configuration["MongoSettings:Connection"]);
+
+            Database = MongoClient.GetDatabase(_configuration["MongoSettings:DatabaseName"]);
+        }
+
         public IMongoCollection<T> GetCollection<T>(string name)
         {
+            ConfigureMongo();
+
             return Database.GetCollection<T>(name);
         }
 
         public void Dispose()
         {
-            while (Session != null && Session.IsInTransaction)
-                Thread.Sleep(TimeSpan.FromMilliseconds(100));
-
+            Session?.Dispose();
             GC.SuppressFinalize(this);
         }
 

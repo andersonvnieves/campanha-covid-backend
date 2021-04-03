@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CampanhaCovid.Backend.Domain.DTOs;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,8 @@ namespace CampanhaCovid.Backend.Domain.Interfaces.Services
 {
     public interface IDoacaoService
     {
+        Task<DoacaoDTO> RegsitraInstituicao(DoacaoDTO dados);
+        Task<DoacaoDTO> GetById(string id);
+        Task<IEnumerable<DoacaoDTO>> GetAll();
     }
 }
