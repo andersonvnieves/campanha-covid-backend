@@ -25,14 +25,13 @@ namespace CampanhaCovid.Backend.Infrastructure.Persistence.Repositories
 
         public virtual void Add(TEntity obj)
         {
-            Task.Run(() => DbSet.InsertOneAsync(obj));
-            //Context.AddCommand(() => DbSet.InsertOneAsync(obj));
+            Context.AddCommand(() => DbSet.InsertOneAsync(obj));
+            Context.SaveChanges();
         }
 
         public virtual async Task<TEntity> GetById(string id)
         {
-            var objectId = new ObjectId(id);
-            var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Eq("_id", objectId));
+            var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Eq("_id", id));
             return data.SingleOrDefault();
         }
 
@@ -42,14 +41,16 @@ namespace CampanhaCovid.Backend.Infrastructure.Persistence.Repositories
             return all.ToList();
         }
 
-        public virtual void Update(TEntity obj)
+        public virtual void Update(TEntity obj, string id)
         {
-            Context.AddCommand(() => DbSet.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.GetId()), obj));
+            Context.AddCommand(() => DbSet.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", id), obj));
+            Context.SaveChanges();
         }
 
-        public virtual void Remove(Guid id)
+        public virtual void Remove(string id)
         {
             Context.AddCommand(() => DbSet.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", id)));
+            Context.SaveChanges();
         }
 
         public void Dispose()

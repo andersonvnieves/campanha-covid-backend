@@ -11,7 +11,7 @@ namespace CampanhaCovid.Backend.Domain.Interfaces.Repositories
         void Add(TEntity obj);
         Task<TEntity> GetById(string id);
         Task<IEnumerable<TEntity>> GetAll();
-        void Update(TEntity obj);
-        void Remove(Guid id);
+        void Update(TEntity obj, string id);
+        void Remove(string id);
     }
 }

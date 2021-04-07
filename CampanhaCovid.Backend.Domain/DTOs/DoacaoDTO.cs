@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace CampanhaCovid.Backend.Domain.DTOs
 {
     public class DoacaoDTO
     {
+        public String Id { get; set; }
         public int QuantidadePecas { get; set; }
         public int IdDoador { get; set; }
         public int IdInstituicao { get; set; }
