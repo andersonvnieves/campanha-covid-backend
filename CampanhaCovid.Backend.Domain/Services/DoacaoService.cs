@@ -4,11 +4,8 @@ using CampanhaCovid.Backend.Domain.Entities;
 using CampanhaCovid.Backend.Domain.Interfaces;
 using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
 using CampanhaCovid.Backend.Domain.Interfaces.Services;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.Domain.Services
@@ -37,12 +34,17 @@ namespace CampanhaCovid.Backend.Domain.Services
             return mapper.Map<DoacaoDTO>(retorno);
         }
 
-        public async Task<DoacaoDTO> RegsitraInstituicao(DoacaoDTO dadosDto)
+        public async Task<DoacaoDTO> RegsitraDoacao(DoacaoDTO dadosDto)
         {
             var dados = mapper.Map<Doacao>(dadosDto);
-            dados.Id = MongoDB.Bson.ObjectId.GenerateNewId();
+            dados.Id = Guid.NewGuid().ToString();
             repository.Add(dados);
-            //await _uow.Commit();
+            return dadosDto;
+        }
+        public async Task<DoacaoDTO> AlterarDoacao(DoacaoDTO dadosDto)
+        {
+            var dados = mapper.Map<Doacao>(dadosDto);
+            repository.Update(dados, dados.Id);
             return dadosDto;
         }
     }

@@ -13,7 +13,8 @@ namespace CampanhaCovid.Backend.Domain.Entities
     public class Doacao
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonElement("Id")]
+        public string Id { get; set; }
 
         [BsonElement("quantidadePecas")]
         public int QuantidadePecas { get; set; }

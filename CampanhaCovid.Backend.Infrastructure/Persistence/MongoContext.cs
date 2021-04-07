@@ -34,13 +34,8 @@ namespace CampanhaCovid.Backend.Infrastructure.Persistence
 
             using (Session = await MongoClient.StartSessionAsync())
             {
-                Session.StartTransaction();
-
                 var commandTasks = _commands.Select(c => c());
-
                 await Task.WhenAll(commandTasks);
-
-                await Session.CommitTransactionAsync();
             }
 
             return _commands.Count;

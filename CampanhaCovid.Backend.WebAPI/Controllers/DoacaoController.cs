@@ -25,7 +25,7 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         {
             try
             {
-                return Ok(doacaoService.RegsitraInstituicao(dados));
+                return Ok(doacaoService.RegsitraDoacao(dados));
             }
             catch (Exception ex)
             {
@@ -37,7 +37,14 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         [HttpPut]
         public IActionResult Put(DoacaoDTO dados)
         {
-            return Ok("");
+            try
+            {
+                return Ok(doacaoService.AlterarDoacao(dados));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]
