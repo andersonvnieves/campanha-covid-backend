@@ -24,7 +24,7 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         public IActionResult Post(RegistrarInstituicaoDTO dados)
         {
             registraUsuarioService.RegsitraInstituicao(dados);
-            return Ok("");
+            return Created("",null);
         }
 
 
