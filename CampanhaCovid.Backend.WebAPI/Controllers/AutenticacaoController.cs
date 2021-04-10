@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CampanhaCovid.Backend.Domain.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,10 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
     [ApiController]
     public class AutenticacaoController : ControllerBase
     {
+        [HttpPost]
+        public IActionResult LogInInstituicao(LogInInstituicaoDTO dto)
+        {
+            return Ok();
+        }
     }
 }
