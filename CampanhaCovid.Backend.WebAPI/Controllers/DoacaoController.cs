@@ -25,11 +25,11 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         {
             try
             {
-                return Ok(doacaoService.RegsitraDoacao(dados));
+                return Ok(await doacaoService.RegistraDoacao(dados));
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
 
@@ -43,7 +43,7 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
 

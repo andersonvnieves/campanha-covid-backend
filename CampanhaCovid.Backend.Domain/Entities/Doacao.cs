@@ -14,6 +14,7 @@ namespace CampanhaCovid.Backend.Domain.Entities
     {
         [BsonId]
         [BsonElement("Id")]
+        //[BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         [BsonElement("quantidadePecas")]

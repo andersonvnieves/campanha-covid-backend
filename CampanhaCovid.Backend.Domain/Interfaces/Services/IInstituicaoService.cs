@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.Domain.Interfaces.Services
 {
-    public interface IRegistraUsuarioService
+    public interface IInstituicaoService
     {
-        Task<RegistrarInstituicaoDTO> RegistraInstituicao(RegistrarInstituicaoDTO dados);
-        List<InstituicaoDTO> GetByCidadeTransporte(bool transporte, string cidade);
+        Task<LogInInstituicaoDTO> LogIn(LogInInstituicaoDTO dto);
+        Task<List<InstituicaoDTO>> GetAll();
+        Task<InstituicaoDTO> GetById(string userId);
     }
 }

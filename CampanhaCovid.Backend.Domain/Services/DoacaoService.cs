@@ -34,7 +34,7 @@ namespace CampanhaCovid.Backend.Domain.Services
             return mapper.Map<DoacaoDTO>(retorno);
         }
 
-        public async Task<DoacaoDTO> RegsitraDoacao(DoacaoDTO dadosDto)
+        public async Task<DoacaoDTO> RegistraDoacao(DoacaoDTO dadosDto)
         {
             var dados = mapper.Map<Doacao>(dadosDto);
             dados.Id = Guid.NewGuid().ToString();

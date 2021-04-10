@@ -14,6 +14,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using CampanhaCovid.Backend.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using CampanhaCovid.Backend.WebAPI.Configuracao;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace CampanhaCovid.Backend.WebAPI
 {
@@ -36,16 +41,68 @@ namespace CampanhaCovid.Backend.WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CampanhaCovid.Backend.WebAPI", Version = "v1" });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("*")
+                        .WithMethods("*")
+                        .WithHeaders("*");
+                    });
+            });
+
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var userService = context.HttpContext.RequestServices.GetRequiredService<IInstituicaoService>();
+                        var userId = context.Principal.Identity.Name;
+                        var user = userService.GetById(userId);
+                        if (user == null)
+                        {
+                            // return unauthorized if user no longer exists
+                            context.Fail("Unauthorized");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<IMongoContext, MongoContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
             services.AddScoped<IDoacaoRepository, DoacaoRepository>();
-            services.AddScoped<IDoacaoService, DoacaoService>();
-
-            services.AddScoped<IRegistraUsuarioService, RegistraUsuarioService>();
-
             services.AddScoped<IInstituicaoRepository, InstituicaoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
+            services.AddScoped<IDoacaoService, DoacaoService>();
+            services.AddScoped<IRegistraUsuarioService, RegistraUsuarioService>();
+            services.AddScoped<IInstituicaoService, InstituicaoService>();
 
             AutoMapperConfig(services);
         }
@@ -59,12 +116,11 @@ namespace CampanhaCovid.Backend.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CampanhaCovid.Backend.WebAPI v1"));
             }
-
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseCors();
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
@@ -77,6 +133,20 @@ namespace CampanhaCovid.Backend.WebAPI
             var mapperConfigure = new MapperConfiguration(config =>
             {
                 config.CreateMap<Doacao, DoacaoDTO>().ReverseMap();
+                config.CreateMap<Instituicao, InstituicaoDTO>().ReverseMap();
+                config.CreateMap<Instituicao, RegistrarInstituicaoDTO>()
+                .ForMember(dest => dest.UsuarioLogin, m=>m.MapFrom(x=>x.Usuario.Login))
+                .ForMember(dest => dest.UsuarioSenha, m=>m.MapFrom(x=>x.Usuario.Senha))
+
+                .ForMember(dest => dest.EnderecoBairro, m=>m.MapFrom(x=>x.Endereco.Bairro))
+                .ForMember(dest => dest.EnderecoCep, m=>m.MapFrom(x=>x.Endereco.Cep))
+                .ForMember(dest => dest.EnderecoCidade, m=>m.MapFrom(x=>x.Endereco.Cidade))
+                .ForMember(dest => dest.EnderecoComplemento, m=>m.MapFrom(x=>x.Endereco.Complemento))
+                .ForMember(dest => dest.EnderecoLogradouro, m=>m.MapFrom(x=>x.Endereco.Logradouro))
+                .ForMember(dest => dest.EnderecoNumero, m=>m.MapFrom(x=>x.Endereco.Numero))
+                .ForMember(dest => dest.EnderecoUf, m=>m.MapFrom(x=>x.Endereco.Uf))
+
+                .ReverseMap();
             });
 
             IMapper mapper = mapperConfigure.CreateMapper();

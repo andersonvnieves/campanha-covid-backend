@@ -10,7 +10,7 @@ namespace CampanhaCovid.Backend.Domain.Interfaces.Services
 {
     public interface IDoacaoService
     {
-        Task<DoacaoDTO> RegsitraDoacao(DoacaoDTO dados);
+        Task<DoacaoDTO> RegistraDoacao(DoacaoDTO dados);
         Task<DoacaoDTO> AlterarDoacao(DoacaoDTO dados);
         Task<DoacaoDTO> GetById(string id);
         Task<IEnumerable<DoacaoDTO>> GetAll();

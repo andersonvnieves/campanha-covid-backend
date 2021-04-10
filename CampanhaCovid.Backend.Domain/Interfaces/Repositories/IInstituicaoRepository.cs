@@ -1,4 +1,5 @@
-﻿using CampanhaCovid.Backend.Domain.Entities;
+﻿using CampanhaCovid.Backend.Domain.DTOs;
+using CampanhaCovid.Backend.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace CampanhaCovid.Backend.Domain.Interfaces.Repositories
 {
     public interface IInstituicaoRepository : IRepository<Instituicao>
     {
+        Task<Instituicao> ObterPorUsuarioSenha(LogInInstituicaoDTO dto);
     }
 }

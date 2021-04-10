@@ -1,5 +1,7 @@
-﻿using CampanhaCovid.Backend.Domain.DTOs;
+﻿using AutoMapper;
+using CampanhaCovid.Backend.Domain.DTOs;
 using CampanhaCovid.Backend.Domain.Entities;
+using CampanhaCovid.Backend.Domain.Interfaces;
 using CampanhaCovid.Backend.Domain.Interfaces.Repositories;
 using CampanhaCovid.Backend.Domain.Interfaces.Services;
 using System;
@@ -13,10 +15,16 @@ namespace CampanhaCovid.Backend.Domain.Services
     public class RegistraUsuarioService : IRegistraUsuarioService
     {
         private readonly IUsuarioRepository repository;
+        private readonly IInstituicaoRepository instituicaoRepository;
+        private IMapper mapper;
+        private readonly IUnitOfWork uow;
 
-        public RegistraUsuarioService(IUsuarioRepository usuarioRepository)
+        public RegistraUsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper, IInstituicaoRepository instituicaoRepository, IUnitOfWork uow)
         {
             this.repository = usuarioRepository;
+            this.mapper = mapper;
+            this.instituicaoRepository = instituicaoRepository;
+            this.uow = uow;
         }
 
         public void Executar()
@@ -30,10 +38,13 @@ namespace CampanhaCovid.Backend.Domain.Services
             return new List<InstituicaoDTO>();
         }
 
-        public void RegsitraInstituicao(RegistrarInstituicaoDTO dados)
+        public async Task<RegistrarInstituicaoDTO> RegistraInstituicao(RegistrarInstituicaoDTO dadosDto)
         {
-            //usuarioRepository.Salvar(dados);
-            throw new NotImplementedException();
+            var dados = mapper.Map<Instituicao>(dadosDto);
+            dados.Id = Guid.NewGuid().ToString();
+            instituicaoRepository.Add(dados);
+            await uow.Commit();
+            return dadosDto;
         }
     }
 }

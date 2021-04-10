@@ -1,5 +1,6 @@
 ﻿using CampanhaCovid.Backend.Domain.DTOs;
 using CampanhaCovid.Backend.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,20 +12,29 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class InstituicaoController : ControllerBase
     {
         private readonly IRegistraUsuarioService registraUsuarioService;
+        private readonly IInstituicaoService service;
 
-        public InstituicaoController(IRegistraUsuarioService registraUsuarioService)
+        public InstituicaoController(IInstituicaoService service, IRegistraUsuarioService registraUsuarioService)
         {
+            this.service = service;
             this.registraUsuarioService = registraUsuarioService;
         }
 
         [HttpPost]
-        public IActionResult Post(RegistrarInstituicaoDTO dados)
+        public async Task<IActionResult> Post(RegistrarInstituicaoDTO dados)
         {
-            registraUsuarioService.RegsitraInstituicao(dados);
-            return Ok("");
+            try
+            {
+                return Ok(await registraUsuarioService.RegistraInstituicao(dados));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
 
@@ -33,6 +43,14 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         {
 
             return Ok("");
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var retorno = await service.GetAll();
+            return Ok(retorno);
         }
 
         [HttpGet]
