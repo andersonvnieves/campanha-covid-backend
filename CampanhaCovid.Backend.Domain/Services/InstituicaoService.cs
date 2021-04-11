@@ -27,11 +27,8 @@ namespace CampanhaCovid.Backend.Domain.Services
         public async Task<LogInInstituicaoDTO> LogIn(LogInInstituicaoDTO dto)
         {
             var retorno = await repository.ObterPorUsuarioSenha(dto);
-            
-            if (retorno == null)
-                throw new Exception("Campo Usuario ou Senha: Inválido");
 
-            return dto;
+            return mapper.Map<LogInInstituicaoDTO>(retorno);
         }
 
         public async Task<List<InstituicaoDTO>> GetAll()

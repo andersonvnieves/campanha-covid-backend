@@ -134,6 +134,7 @@ namespace CampanhaCovid.Backend.WebAPI
             {
                 config.CreateMap<Doacao, DoacaoDTO>().ReverseMap();
                 config.CreateMap<Instituicao, InstituicaoDTO>().ReverseMap();
+                config.CreateMap<Instituicao, LogInInstituicaoDTO>().ReverseMap();
                 config.CreateMap<Instituicao, RegistrarInstituicaoDTO>()
                 .ForMember(dest => dest.UsuarioLogin, m=>m.MapFrom(x=>x.Usuario.Login))
                 .ForMember(dest => dest.UsuarioSenha, m=>m.MapFrom(x=>x.Usuario.Senha))
