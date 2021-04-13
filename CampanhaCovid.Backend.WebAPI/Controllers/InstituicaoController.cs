@@ -24,6 +24,7 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
             this.registraUsuarioService = registraUsuarioService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Post(RegistrarInstituicaoDTO dados)
         {
@@ -46,6 +47,7 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("all")]
         public async Task<IActionResult> GetAll()
         {

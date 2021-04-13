@@ -14,6 +14,7 @@ namespace CampanhaCovid.Backend.Domain.DTOs
         public int QuantidadePecas { get; set; }
         public int IdDoador { get; set; }
         public int IdInstituicao { get; set; }
-        public Status Status{ get; set; }
+        public Boolean Transporte { get; set; }
+        //public Status Status{ get; set; }
     }
 }
