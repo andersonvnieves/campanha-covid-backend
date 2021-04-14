@@ -14,7 +14,7 @@ namespace CampanhaCovid.Backend.Infrastructure.Persistence.Repositories
     public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly IMongoContext Context;
-        protected IMongoCollection<TEntity> DbSet;
+        public IMongoCollection<TEntity> DbSet;
 
         protected BaseRepository(IMongoContext context)
         {

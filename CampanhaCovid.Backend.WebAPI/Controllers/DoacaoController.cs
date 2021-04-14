@@ -33,24 +33,11 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
             }
         }
 
-
-        [HttpPut]
-        public IActionResult Put(DoacaoDTO dados)
-        {
-            try
-            {
-                return Ok(doacaoService.AlterarDoacao(dados));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DoacaoDTO>>> Get()
+        [Route("/api/Doacao/AllByInstitution/{instituicaoId}")]
+        public async Task<ActionResult<IEnumerable<DoacaoDTO>>> GetAllByInstitution(string instituicaoId)
         {
-            return Ok(await doacaoService.GetAll());
+            return Ok(await doacaoService.GetAllByInstitution(instituicaoId));
         }
 
         [HttpGet("{id}")]

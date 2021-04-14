@@ -13,6 +13,6 @@ namespace CampanhaCovid.Backend.Domain.Interfaces.Services
         Task<DoacaoDTO> RegistraDoacao(DoacaoDTO dados);
         Task<DoacaoDTO> AlterarDoacao(DoacaoDTO dados);
         Task<DoacaoDTO> GetById(string id);
-        Task<IEnumerable<DoacaoDTO>> GetAll();
+        Task<IEnumerable<DoacaoDTO>> GetAllByInstitution(string id);
     }
 }

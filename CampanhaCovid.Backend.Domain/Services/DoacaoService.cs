@@ -22,9 +22,9 @@ namespace CampanhaCovid.Backend.Domain.Services
             this._uow = uow;
         }
 
-        public async Task<IEnumerable<DoacaoDTO>> GetAll()
+        public async Task<IEnumerable<DoacaoDTO>> GetAllByInstitution(string id)
         {
-            var retorno = await repository.GetAll();
+            var retorno = await repository.GetAllByInstitutionId(id);
             return mapper.Map<IEnumerable<DoacaoDTO>>(retorno);
         }
 
@@ -37,7 +37,7 @@ namespace CampanhaCovid.Backend.Domain.Services
         public async Task<DoacaoDTO> RegistraDoacao(DoacaoDTO dadosDto)
         {
             var dados = mapper.Map<Doacao>(dadosDto);
-            dados.Id = Guid.NewGuid().ToString();
+            dadosDto.Id = dados.Id = Guid.NewGuid().ToString();
             repository.Add(dados);
             return dadosDto;
         }

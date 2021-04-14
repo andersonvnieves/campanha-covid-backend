@@ -12,7 +12,7 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class InstituicaoController : ControllerBase
     {
         private readonly IRegistraUsuarioService registraUsuarioService;
@@ -38,14 +38,6 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
             }
         }
 
-
-        [HttpPut]
-        public IActionResult Put(RegistrarInstituicaoDTO dados)
-        {
-
-            return Ok("");
-        }
-
         [HttpGet]
         [AllowAnonymous]
         [Route("all")]
@@ -56,17 +48,9 @@ namespace CampanhaCovid.Backend.WebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int instituicaoId)
+        public async Task<IActionResult> Get(string instituicaoId)
         {
-            return Ok("");
-        }
-
-        [HttpGet]
-        [Route("filtro")]
-        public IActionResult GetByCidadeTransporte(bool transporte, string cidade)
-        {
-            var retorno = registraUsuarioService.GetByCidadeTransporte(transporte, cidade);
-            return Ok(retorno);
+            return Ok(await service.GetById(instituicaoId));
         }
     }
 }

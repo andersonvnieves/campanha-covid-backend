@@ -14,19 +14,20 @@ namespace CampanhaCovid.Backend.Domain.Entities
     {
         [BsonId]
         [BsonElement("Id")]
-        //[BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         [BsonElement("quantidadePecas")]
         public int QuantidadePecas { get; set; }
 
-        [BsonElement("idDoador")]
-        public int IdDoador { get; set; }
+        [BsonElement("nomeCompeltoDoador")]
+        public string NomeCompeltoDoador { get; set; }
+        [BsonElement("emailDoador")]
+        public string EmailDoador { get; set; }
 
         [BsonElement("idInstituicao")]
-        public int IdInstituicao { get; set; }
+        public string IdInstituicao { get; set; }
 
-        [BsonElement("status")]
-        public Status Status { get; set; }
+        [BsonElement("transporte")]
+        public Boolean Transporte { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace CampanhaCovid.Backend.Domain.Interfaces.Repositories
 {
     public interface IDoacaoRepository : IRepository<Doacao>
     {
-
+        Task<IEnumerable<Doacao>> GetAllByInstitutionId(string id);
     }
 }

@@ -27,8 +27,7 @@ namespace CampanhaCovid.Backend.Domain.Services
         public async Task<LogInInstituicaoDTO> LogIn(LogInInstituicaoDTO dto)
         {
             var retorno = await repository.ObterPorUsuarioSenha(dto);
-
-            return mapper.Map<LogInInstituicaoDTO>(retorno);
+            return new LogInInstituicaoDTO() { userName = retorno.Id, password = retorno.Usuario.Senha};
         }
 
         public async Task<List<InstituicaoDTO>> GetAll()

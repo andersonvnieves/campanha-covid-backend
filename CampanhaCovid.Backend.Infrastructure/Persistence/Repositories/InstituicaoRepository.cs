@@ -23,8 +23,8 @@ namespace CampanhaCovid.Backend.Infrastructure.Persistence.Repositories
         public async Task<Instituicao> ObterPorUsuarioSenha(LogInInstituicaoDTO dto)
         {
             var data = await DbSet.FindAsync(
-                Builders<Instituicao>.Filter.And(Builders<Instituicao>.Filter.Where(p => p.Usuario.Login.ToLower() == dto.userName.ToLower()),
-                Builders<Instituicao>.Filter.Where(p => p.Usuario.Senha.ToLower() == dto.password.ToLower())));
+                Builders<Instituicao>.Filter.And(Builders<Instituicao>.Filter.Where(p => p.Usuario.Login.ToLower() == dto.userName.ToLower() 
+                && p.Usuario.Senha.ToLower() == dto.password.ToLower())));
             return data.SingleOrDefault();
         }
     }

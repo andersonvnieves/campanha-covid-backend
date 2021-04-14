@@ -12,9 +12,9 @@ namespace CampanhaCovid.Backend.Domain.DTOs
     {
         public string Id { get; set; }
         public int QuantidadePecas { get; set; }
-        public int IdDoador { get; set; }
-        public int IdInstituicao { get; set; }
+        public string NomeCompeltoDoador { get; set; }
+        public string EmailDoador { get; set; }
+        public string IdInstituicao { get; set; }
         public Boolean Transporte { get; set; }
-        //public Status Status{ get; set; }
     }
 }
