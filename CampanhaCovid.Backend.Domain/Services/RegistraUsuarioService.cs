@@ -41,7 +41,7 @@ namespace CampanhaCovid.Backend.Domain.Services
         public async Task<RegistrarInstituicaoDTO> RegistraInstituicao(RegistrarInstituicaoDTO dadosDto)
         {
             var dados = mapper.Map<Instituicao>(dadosDto);
-            dados.Id = Guid.NewGuid().ToString();
+            dadosDto.Id = dados.Id = Guid.NewGuid().ToString();
             instituicaoRepository.Add(dados);
             await uow.Commit();
             return dadosDto;
